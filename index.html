@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+
+<title>basic-text-extractor</title>
+
+<script src="../platform/platform.js"></script>
+
+<link rel="import" href="basic-text-extractor.html">
+
+<style>
+body,
+button,
+input {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+}
+
+body {
+  margin: 0.5in;
+}
+</style>
+
+<!--
+This sample element wants to convert text *contained* by element instances into
+a text value that can be rendered as, e.g., the value attribute of an input
+element. A normal use of <content> won't work, because there's no syntax for
+directly binding an attribute (on an input element, say) to text distributed to
+a <content> node. The basic-text-extractor component performs that conversion.
+-->
+<polymer-element name="text-extractor-demo" noscript>
+<template>
+  <style>
+  input {
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+  }
+  </style>
+  <basic-text-extractor value="{{extractedText}}">
+    <content></content>
+  </basic-text-extractor>
+  <input type="text" value="{{extractedText}}">
+</template>
+</polymer-element>
+
+</head>
+
+<body>
+  <text-extractor-demo>
+    This text will end up inside an input element
+  </text-extractor-demo>
+</body>
+
+</html>
