@@ -25,8 +25,8 @@ This element effectively lets one bind to <content>.
 
 <template>
   <style>
-  /* Hide this element from view. */
-  :host {
+  /* Hide this element from view unless the .show class is applied. */
+  :host(:not(.show)) {
     display: none;
   }
   </style>
