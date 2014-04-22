@@ -38,6 +38,7 @@ Polymer( "basic-text-extractor", {
 
   contentChanged: function() {
     var text = this._flattenContentText( this.$.content );
+    this.log( "contentChanged: " + text );
     this.value = text.trim();
   },
 
