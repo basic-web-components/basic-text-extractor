@@ -42,24 +42,31 @@ Polymer( "basic-text-extractor", {
     this.value = text.trim();
   },
 
+  publish: {
+    value: {
+      value: undefined,
+      reflect: true
+    }
+  },
+
   // Return the text of the given node, recursively expanding any text in nodes
   // distributed to content nodes.
   _flattenContentText: function( node ) {
-      var text = "";
-      if ( node.nodeType === 3 /* Text */ ) {
-        text = node.textContent;
-      } else {
-        var subnodes = ( node instanceof HTMLContentElement )
-          ? node.getDistributedNodes()
-          : node.childNodes;
-        // Roundabout invocation of forEach because sometimes we have a NodeList
-        // and sometimes have an array, and we want the loop to work with either.
-        Array.prototype.forEach.call( subnodes, function( subnode ) {
-          text += this._flattenContentText( subnode );
-        }.bind( this ));
-      }
-      return text;
+    var text = "";
+    if ( node.nodeType === 3 /* Text */ ) {
+      text = node.textContent;
+    } else {
+      var subnodes = ( node instanceof HTMLContentElement )
+        ? node.getDistributedNodes()
+        : node.childNodes;
+      // Roundabout invocation of forEach because sometimes we have a NodeList
+      // and sometimes have an array, and we want the loop to work with either.
+      Array.prototype.forEach.call( subnodes, function( subnode ) {
+        text += this._flattenContentText( subnode );
+      }.bind( this ));
     }
+    return text;
+  }
 
 });
 </script>
