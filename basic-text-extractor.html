@@ -1,11 +1,11 @@
 <!--
-Flattens the text of its own content and exposes this as an attribute which can
-be bound to.
+Exposes the text of its own content as an attribute which can be bound to.
 
 Elements often need to convert the content of distributed nodes into a value
-which can be passed to a sub-element via binding. This element makes that
-possible in a declarative fasion. For example, suppose an element wants to
-pass its own distributed content to a sub-element called interesting-element:
+which can be passed to an *attribute* on another element via binding. This
+element makes that possible in a declarative fashion. For example, suppose an
+element wants to pass its own distributed content to a sub-element called
+interesting-element:
 
 <polymer-element name="sample-element" noscript>
 <template>
@@ -16,7 +16,11 @@ pass its own distributed content to a sub-element called interesting-element:
 </template>
 </polymer-element>
 
-This element effectively lets one bind to <content>.
+This element effectively lets one bind to the text of a content element. If the
+distributed content itself contains content elements, these will be recursively
+traversed in document order.
+
+@element basic-text-extractor
 -->
 
 <link rel="import" href="../basic-element/basic-element.html">
@@ -37,34 +41,20 @@ This element effectively lets one bind to <content>.
 Polymer( "basic-text-extractor", {
 
   contentChanged: function() {
-    var text = this._flattenContentText( this.$.content );
-    this.value = text.trim();
+    this.value = this.flattenTextContent.trim();
   },
 
   publish: {
+    /**
+     * The flattened text, including text in distributed content.
+     * White space will be trimmed from the result.
+     *
+     * @attribute value
+     */
     value: {
       value: undefined,
       reflect: true
     }
-  },
-
-  // Return the text of the given node, recursively expanding any text in nodes
-  // distributed to content nodes.
-  _flattenContentText: function( node ) {
-    var text = "";
-    if ( node.nodeType === 3 /* Text */ ) {
-      text = node.textContent;
-    } else {
-      var subnodes = ( node instanceof HTMLContentElement )
-        ? node.getDistributedNodes()
-        : node.childNodes;
-      // Roundabout invocation of forEach because sometimes we have a NodeList
-      // and sometimes have an array, and we want the loop to work with either.
-      Array.prototype.forEach.call( subnodes, function( subnode ) {
-        text += this._flattenContentText( subnode );
-      }.bind( this ));
-    }
-    return text;
   }
 
 });
