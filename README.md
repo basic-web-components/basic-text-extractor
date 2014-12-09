@@ -1,7 +1,4 @@
-This web component flattens the text of its own content and exposes this as an
-attribute which can be bound to.
-
-Elements often need to convert the content of distributed nodes into a value
-which can be passed to a sub-element via binding. This element makes that
-possible in a declarative fasion. For example, suppose an element wants to
-pass its own distributed content to a sub-element called interesting-element:
+The organization of these web component files is tuned for the component's
+inclusion in other projects via [Bower](http://bower.io). If you'd like to run
+this component's demo on your own machine, please see these
+[instructions](https://github.com/basic-web-components/components-dev/wiki/Running-Basic-Web-Component-demos).
