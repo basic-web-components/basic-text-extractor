@@ -23,28 +23,36 @@ traversed in document order.
 @element basic-text-extractor
 -->
 
-<link rel="import" href="../basic-element/basic-element.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../basic-shared/basic-shared.html">
 
-<polymer-element name="basic-text-extractor" attributes="value" extends="basic-element">
+<dom-module id="basic-text-extractor">
 
-<template>
   <style>
   /* Hide this element unless the .show class is applied. */
   :host(:not(.show)) {
     display: none;
   }
   </style>
-  <content id="content"></content>
-</template>
+
+  <template>
+    <content id="content"></content>
+  </template>
+
+</dom-module>
 
 <script>
 Polymer({
+
+  behaviors: [Basic.ContentChanged],
 
   contentChanged: function() {
     this.value = this.flattenTextContent.trim();
   },
 
-  publish: {
+  is: 'basic-text-extractor',
+
+  properties: {
     /**
      * The flattened text, including text in distributed content.
      * White space will be trimmed from the result.
@@ -52,12 +60,11 @@ Polymer({
      * @attribute value
      */
     value: {
-      value: undefined,
-      reflect: true
+      notify: true,
+      type: String,
+      value: undefined
     }
   }
 
 });
 </script>
-
-</polymer-element>
